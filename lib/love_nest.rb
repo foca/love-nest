@@ -12,6 +12,7 @@ module LoveNest
       #       include LoveNest::TestCase
       #
       #       setup do
+      #         super
       #         @foo = Foo.new
       #       end
       #
@@ -28,6 +29,7 @@ module LoveNest
       #       include LoveNest::TestCase
       #
       #       teardown do
+      #         super
       #         @foo = nil
       #       end
       #
@@ -45,6 +47,7 @@ module LoveNest
       #       include LoveNest::TestCase
       #
       #       global_setup do
+      #         super
       #         FileUtils.mkdir_p "some_dir"
       #       end
       #
@@ -66,6 +69,7 @@ module LoveNest
       #       include LoveNest::TestCase
       #
       #       global_teardown do
+      #         super
       #         FileUtils.rm_rf "some_dir"
       #       end
       #
@@ -88,6 +92,7 @@ module LoveNest
       #
       #       context "A foo" do
       #         setup do
+      #           super
       #           @foo = Foo.new
       #         end
       #
@@ -128,7 +133,8 @@ module LoveNest
       #       include LoveNest::TestCase
       #
       #       context "A Duck" do
-      #         before do
+      #         setup do
+      #           super
       #           @duck = Duck.new
       #         end
       #
