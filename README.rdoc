@@ -1,0 +1,72 @@
+= Love Nest
+
+Nested contexts for your Test::Unit test cases.
+
+== Example, please
+
+    require "test/unit"
+    require "love_nest"
+
+    class MyTestCase < Test::Unit::TestCase
+      include LoveNest::TestCase
+
+      context "A foo" do
+        setup do
+          super
+          @foo = Foo.new
+        end
+
+        test "is fooey" do
+          assert @foo.fooey?
+        end
+      end
+
+      context "A bar" do
+        ...
+      end
+    end
+
+== Philosophy
+
+LoveNest wants you to be as explicit as possible when declaring your tests.
+In order for it to work, you must include it explicitly into a class. You
+can do the following if you want the methods available on all test cases:
+
+    class Test::Unit::TestCase
+      include LoveNest::TestCase
+    end
+
+Also, when you declare <tt>setup</tt>/<tt>teardown</tt> blocks, you should
+call <tt>super</tt> in order to call other setup/teardown blocks. 
+
+    class MyTestCase < Test::Unit::TestCase
+      setup do
+        super # call setup blocks on the parent class
+        @foo = Foo.new
+      end
+
+      context "Some nesting, please" do
+        setup do
+          super # first call the setup block on MyTestCase (and ancestors)
+          @bar = Bar.new
+        end
+
+        test "foobar!" do
+          ...
+        end
+      end
+    end
+
+Why? Well, in 3 months someone else will read this test case and wonder why 
+a test fails, and then figure out it's because a setup block, defined on a 
+globally required test helper, was doing something bad. With an explicit call 
+to <tt>super</tt> you get reminded that there are (or at least might be) other 
+blocks of code running, which might introduce side effects to your test case.
+
+== Credits
+
+LoveNest was heavily influenced by 
+Contest[http://github.com/citrusbyte/contest].
+
+Author::  Nicolás Sanguinetti (aka foca[http://github.com/foca])
+License:: Code released under an MIT license. See LICENSE for details.
